@@ -1,0 +1,7 @@
+.mypy_cache
+.nyc_output
+.serverless
+.terraform
+build
+coverage
+dist

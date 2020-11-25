@@ -1,0 +1,51 @@
+{
+  "name": "filament-test-pharma-leave-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:local": "sls webpack --out lib"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/dialogflow": "^3.3.0",
+    "@slack/web-api": "^5.13.0",
+    "@types/luxon": "^1.25.0",
+    "aws-sdk": "^2.798.0",
+    "luxon": "^1.25.0",
+    "node-fetch": "^2.6.1",
+    "querystring": "^0.2.0",
+    "uuid": "^8.3.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.17",
+    "@types/aws-sdk": "^2.7.0",
+    "@types/jest": "^25.2.1",
+    "@types/node": "^10.12.18",
+    "@types/node-fetch": "^2.5.7",
+    "@types/supertest": "^2.0.9",
+    "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^2.6.1",
+    "@typescript-eslint/parser": "^2.6.1",
+    "copy-webpack-plugin": "^6.0.1",
+    "eslint": "^6.6.0",
+    "eslint-plugin-import": "^2.18.2",
+    "fork-ts-checker-webpack-plugin": "^3.0.1",
+    "git-describe": "^4.0.4",
+    "jest": "^25.5.3",
+    "prettier": "^1.19.1",
+    "serverless": "^1.70.1",
+    "serverless-plugin-aws-alerts": "^1.5.2",
+    "serverless-prune-plugin": "^1.4.3",
+    "serverless-terraform-outputs": "0.0.4",
+    "serverless-webpack": "^5.2.0",
+    "supertest": "^4.0.2",
+    "ts-jest": "^25.4.0",
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.8.3",
+    "webpack": "^4.29.0",
+    "webpack-node-externals": "^1.7.2"
+  }
+}

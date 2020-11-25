@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "lib": ["es2017"],
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "module": "commonjs",
+    "target": "es5",
+    "outDir": "dist",
+    "baseUrl": "../../",
+    "rootDir": "../../"
+  },
+  "include": ["./**/*.ts"],
+  "exclude": [
+    "node_modules/**/*",
+    ".serverless/**/*",
+    ".webpack/**/*",
+    "_warmup/**/*",
+    ".vscode/**/*"
+  ]
+}

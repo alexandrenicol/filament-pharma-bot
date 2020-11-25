@@ -1,0 +1,83 @@
+service: jobsocks
+
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
+  TableName: 'usersTable'
+
+# Add serverless plugins
+plugins:
+  modules:
+    - serverless-webpack
+    - serverless-prune-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+  logs:
+    restApi: true
+
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-west-1'}
+  stackName: ${self:service}-${self:provider.stage}
+
+  memorySize: 3008
+  timeout: 3
+
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    ENVIRONMENT: ${self:provider.stage}
+    REGION: ${self:provider.region}
+    SLACK_TOKEN: ${env:SLACK_TOKEN}
+    GOOGLE_APPLICATION_CREDENTIALS: ${env:GCP_CRED_FILE}
+    DDB_TABLE_NAME: ${self:service}-${self:provider.stage}-${self:custom.TableName}
+    # BUCKET: ${self:custom.bucket}
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action: '*'
+      Resource: 'arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.DDB_TABLE_NAME}'
+    - Effect: 'Allow'
+      Action: '*'
+      Resource: 'arn:aws:sqs:*'
+
+functions:
+  pharmal:
+    handler: src/index.handler
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - EventQueue
+              - Arn
+  queue:
+    handler: src/queue.handler
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-${self:provider.stage}-${self:custom.TableName}
+        AttributeDefinitions:
+          - AttributeName: slackID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: slackID
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+
+    EventQueue:
+      Type: 'AWS::SQS::Queue'
+      Properties:
+        QueueName: 'EventQueue'
